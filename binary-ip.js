@@ -1,7 +1,7 @@
 "use strict";
 
 // Define variables
-let input = "11000000.10101000.00000001.00000001";
+let input = "11000000.10101000.00000001.00020001";
 let output = "";
 
 // Variable for binary value
@@ -15,27 +15,43 @@ let decIP = "";
 let binSegs = input.split('.');
 
 // error function
-function error(errorCode)
+let error = (errorCode) =>
 {
     switch (errorCode) 
     {
         case 'badInput':
-            console.log("Warning: Invalid input");
-        // default:
-        //     console.log("ERROR");
+            console.log("Warning: Invalid input! Please provide a valid binary IP");
     }
 }
 
 // Check that input is valid
-function isBinIP(ip) 
+let isBinIP = (input) =>
 {
-    if (ip.split('.').length === 4)
+    let charCheck = () =>
     {
-        console.log(true);
-        return true;
-    } else 
-    {
+        input.split('').forEach(char =>
+        {
+            if (char !== '1' && char !== '0' && char !== '.') 
+            {
+                return false;
+            }
+            return true
+        })
+    }
+    console.log(charCheck());
+    if (input.split('.').length !== 4) {
         return false;
+    }
+    else if (input.length !== 35) {
+        return false;
+    }
+    else if (charCheck() === false) 
+    {
+        return false
+    }
+    else
+    {
+        return true;
     }
 }
 
@@ -51,12 +67,8 @@ function reverseString(str)
 // Convert binary IP to decimal function
 function convertBin()
 {
-    if (isBinIP(input) !== true) 
-    {
-        error('badInput');
-        
-    }
-    
+    isBinIP(input) ? true : error(`badInput`);
+
     binSegs.forEach(binSeg => 
     {
         binSeg = reverseString(binSeg);
